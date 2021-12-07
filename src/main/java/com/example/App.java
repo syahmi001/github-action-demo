@@ -18,10 +18,15 @@ public class App {
     public void init()
     {
         Logger log = LoggerFactory.getLogger(App.class);
-        log.info("Java app started");
-    }
 
-    public String getStatus() {
-        return "OK";
+        try {
+            log.info("I am a Java app");
+            log.info("Just logging stuff");
+
+            throw new NullPointerException("Ooh noes! Something bad happened");
+        }
+        catch (Exception e) {
+            log.error("Error occurred!", e);
+        }
     }
 }
