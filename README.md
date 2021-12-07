@@ -1,2 +1,12 @@
-# github-action-demo
- A repo to demonstrate a simple maven project to be automated via github action ci/cd pipeline
+##### build the project
+
+    ./gradlew build
+
+##### build Docker image called java-app. Execute from root
+
+    docker build -t java-app .
+    
+##### push image to repo 
+
+    docker tag java-app demo-app:java-1.0
+    
