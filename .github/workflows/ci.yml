@@ -30,6 +30,13 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew build
+      
+    - name: Build with Gradle
+      uses: actions/upload-artifact@v2
+      with:
+       name: my-artifact
+       path: build/libs/
+       if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
 
     - name: Build and Push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v5
