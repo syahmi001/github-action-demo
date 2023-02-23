@@ -1,0 +1,55 @@
+name: Deployment Demo
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  initial-job:
+    name: "Initial job"
+    runs-on: ubuntu-latest
+    steps:
+    - name: First step
+      id: init
+      run: |
+        echo "Starting CI/CD demo for ${{ github.repository }}"
+
+  deploy_to_development:
+    name: "Development Deployment"
+    if: ${{ github.ref != 'ref/heads/main' }}
+    needs: initial-job
+    environment: development
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Development
+      if: ${{ github.ref != 'ref/heads/main' }}
+      run: |
+        echo "Deploying to Development environment!"
+
+  deploy_to_staging:
+    name: "Staging Deployment"
+    if: ${{ github.ref != 'ref/heads/main' }}
+    needs: initial-job
+    environment: staging
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Staging
+      if: ${{ github.ref != 'ref/heads/main' }}
+      run: |
+        echo "Deploying to Staging environment!"
+
+  deploy_to_production:
+    name: "Production Deployment"
+    if: ${{ github.ref != 'ref/heads/main' }}
+    needs: initial-job
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Production
+      if: ${{ github.ref != 'ref/heads/main' }}
+      run: |
+        echo "Deploying to Production environment!"
+
+
+    
