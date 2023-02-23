@@ -29,25 +29,25 @@ jobs:
 
   deploy_to_staging:
     name: "Staging Deployment"
-    if: ${{ github.ref != 'ref/heads/main' }}
+    if: ${{ github.ref == 'ref/heads/main' }}
     needs: initial-job
     environment: staging
     runs-on: ubuntu-latest
     steps:
     - name: Deploy to Staging
-      if: ${{ github.ref != 'ref/heads/main' }}
+      if: ${{ github.ref == 'ref/heads/main' }}
       run: |
         echo "Deploying to Staging environment!"
 
   deploy_to_production:
     name: "Production Deployment"
-    if: ${{ github.ref != 'ref/heads/main' }}
+    if: ${{ github.ref == 'ref/heads/main' }}
     needs: initial-job
     environment: production
     runs-on: ubuntu-latest
     steps:
     - name: Deploy to Production
-      if: ${{ github.ref != 'ref/heads/main' }}
+      if: ${{ github.ref == 'ref/heads/main' }}
       run: |
         echo "Deploying to Production environment!"
 
