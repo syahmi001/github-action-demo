@@ -1,7 +1,7 @@
 name: Deployment Demo
 on:
   push:
-    branches: [ main ]
+    branches: [ main, test-branch ]
   pull_request:
     branches: [ main ]
 
@@ -22,6 +22,25 @@ jobs:
     environment: development
     runs-on: ubuntu-latest
     steps:
+    - name: Which dir
+      run: |
+        ls 
+    
+    - name: Which pwd
+      run: |
+        pwd
+
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref || github.ref_name }}
+  
+    # Check for production deployment by authorized user
+    - name: Can actor do production deployment? 
+      uses: natterstefan/action-eligible-actor@v1
+      with:
+        rulesFile: 'eligible-actors-rules.json' # default
+        ruleId: 1 # required
+
     - name: Deploy to Development
       if: ${{ github.ref != 'refs/heads/main' }}
       run: |
@@ -39,10 +58,21 @@ jobs:
       run: |
         echo "Deploying to Staging environment!"
 
+  prod_pre_setup:
+    name: "Production setup"
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: initial-job
+    runs-on: ubuntu-latest
+    steps:
+    - name: Pre setup
+      if: ${{ github.ref == 'refs/heads/main' }}
+      run: |
+        echo "Pre setup"
+
   deploy_to_production:
     name: "Production Deployment"
     if: ${{ github.ref == 'refs/heads/main' }}
-    needs: initial-job
+    needs: prod_pre_setup
     environment: production
     runs-on: ubuntu-latest
     steps:

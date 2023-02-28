@@ -1,0 +1,16 @@
+[
+    {
+      "id": "1",
+      "description": "Fave SEA deployers only",
+      "eligibleActors": ["test"],
+      "failureMessage": "Only the authorized people from Fave SEA can run this!",
+      "failSilently": false
+    },
+    {
+        "id": "2",
+        "description": "Fave India deployers only",
+        "eligibleActors": ["syahmi001", "test"],
+        "failureMessage": "Only the authorized people from Fave India can run this!",
+        "failSilently": false
+      }
+  ]
