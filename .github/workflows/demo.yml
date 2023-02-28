@@ -22,6 +22,11 @@ jobs:
     environment: development
     runs-on: ubuntu-latest
     steps:
+    - name: Which dir
+      run: |
+        pwd
+        ls -a
+  
     # Check for production deployment by authorized user
     - name: Can actor do production deployment? 
       uses: natterstefan/action-eligible-actor@v1
