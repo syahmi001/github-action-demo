@@ -29,6 +29,10 @@ jobs:
     - name: Which pwd
       run: |
         pwd
+
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref || github.ref_name }}
   
     # Check for production deployment by authorized user
     - name: Can actor do production deployment? 
