@@ -22,6 +22,13 @@ jobs:
     environment: development
     runs-on: ubuntu-latest
     steps:
+    # Check for production deployment by authorized user
+    - name: Can actor do production deployment? 
+      uses: natterstefan/action-eligible-actor@v1
+      with:
+        rulesFile: 'eligible-actors-rules.json' # default
+        ruleId: 1 # required
+
     - name: Deploy to Development
       if: ${{ github.ref != 'refs/heads/main' }}
       run: |
