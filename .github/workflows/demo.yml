@@ -58,10 +58,21 @@ jobs:
       run: |
         echo "Deploying to Staging environment!"
 
+  prod_pre_setup:
+    name: "Production setup"
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: initial-job
+    runs-on: ubuntu-latest
+    steps:
+    - name: Pre setup
+      if: ${{ github.ref == 'refs/heads/main' }}
+      run: |
+        echo "Pre setup"
+
   deploy_to_production:
     name: "Production Deployment"
     if: ${{ github.ref == 'refs/heads/main' }}
-    needs: initial-job
+    needs: prod_pre_setup
     environment: production
     runs-on: ubuntu-latest
     steps:
