@@ -24,9 +24,11 @@ jobs:
     steps:
     - name: Which dir
       run: |
+        ls 
+    
+    - name: Which pwd
+      run: |
         pwd
-        cd .github
-        ls -a
   
     # Check for production deployment by authorized user
     - name: Can actor do production deployment? 
