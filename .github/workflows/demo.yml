@@ -25,6 +25,7 @@ jobs:
     - name: Which dir
       run: |
         pwd
+        cd .github
         ls -a
   
     # Check for production deployment by authorized user
