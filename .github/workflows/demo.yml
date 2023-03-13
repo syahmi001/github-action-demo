@@ -4,6 +4,17 @@ on:
     branches: [ main, test-branch ]
   pull_request:
     branches: [ main ]
+    
+  workflow_dispatch:
+    inputs:
+      deploy_target:
+        description: 'Deploy target server'
+        required: true
+        type: choice
+        options:
+          - deployment
+          - staging
+          - production
 
 jobs:
   initial-job:
