@@ -1,0 +1,17 @@
+name: Deployment Demo
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  jira-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cleartax/jira-lint@master
+        name: jira-lint
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          jira-token: ${{ secrets.JIRA_TOKEN }}
+          jira-base-url: https://kfit-asia.atlassian.net
+          skip-comments: true
+          pr-threshold: 1000
