@@ -7,7 +7,7 @@ jobs:
   jira-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: jira-tools/action-jira-linter@v1.0.1
+      - uses: dsbilling/action-jira-linter@main
         name: jira-lint
         with:
           github-token: ${{ secrets.TOKEN_GA }}
