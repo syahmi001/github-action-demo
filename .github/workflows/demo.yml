@@ -12,85 +12,14 @@ on:
         required: true
         type: choice
         options:
-          - deployment
+          - development
           - staging
           - production
 
 jobs:
-  initial-job:
-    name: "Initial job"
-    runs-on: ubuntu-latest
-    steps:
-    - name: First step
-      id: init
-      run: |
-        echo "Starting CI/CD demo for ${{ github.repository }}"
-
-  deploy_to_development:
-    name: "Development Deployment"
-    if: ${{ github.ref != 'refs/heads/main' }}
-    needs: initial-job
-    environment: development
-    runs-on: ubuntu-latest
-    steps:
-    - name: Which dir
-      run: |
-        ls 
-    
-    - name: Which pwd
-      run: |
-        pwd
-
-    - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.head_ref || github.ref_name }}
-  
-    # Check for production deployment by authorized user
-    - name: Can actor do production deployment? 
-      uses: natterstefan/action-eligible-actor@v1
-      with:
-        rulesFile: 'eligible-actors-rules.json' # default
-        ruleId: 1 # required
-
-    - name: Deploy to Development
-      if: ${{ github.ref != 'refs/heads/main' }}
-      run: |
-        echo "Deploying to Development environment!"
-
-  deploy_to_staging:
-    name: "Staging Deployment"
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: initial-job
-    environment: staging
-    runs-on: ubuntu-latest
-    steps:
-    - name: Deploy to Staging
-      if: ${{ github.ref == 'refs/heads/main' }}
-      run: |
-        echo "Deploying to Staging environment!"
-
-  prod_pre_setup:
-    name: "Production setup"
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: initial-job
-    runs-on: ubuntu-latest
-    steps:
-    - name: Pre setup
-      if: ${{ github.ref == 'refs/heads/main' }}
-      run: |
-        echo "Pre setup"
-
-  deploy_to_production:
-    name: "Production Deployment"
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: prod_pre_setup
-    environment: production
-    runs-on: ubuntu-latest
-    steps:
-    - name: Deploy to Production
-      if: ${{ github.ref == 'refs/heads/main' }}
-      run: |
-        echo "Deploying to Production environment!"
-
+  setup_deployment:
+    uses: ./.github/workflows/cd.yml
+    with:
+      deploy_target: ${{ inputs.deploy_target }}
 
     
