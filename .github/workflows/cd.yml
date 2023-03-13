@@ -1,4 +1,6 @@
 name: Deployment Demo
+run-name: "Deploying to ${{ inputs.deploy_target }}"
+
 on:
   # List of deploy servers. Production only 
   workflow_call:
