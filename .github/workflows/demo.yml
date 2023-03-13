@@ -17,7 +17,7 @@ on:
           - production
 
 jobs:
-  setup_deployment:
+  cd_deploy:
     uses: ./.github/workflows/cd.yml
     with:
       deploy_target: ${{ inputs.deploy_target }}
