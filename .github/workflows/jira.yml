@@ -10,7 +10,7 @@ jobs:
       - uses: estherk0/jira-lint@master
         name: jira-lint
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.TOKEN_GA }}
           jira-token: ${{ secrets.JIRA_TOKEN }}
           jira-base-url: https://kfit-asia.atlassian.net
           skip-comments: true
