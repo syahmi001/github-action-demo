@@ -7,7 +7,7 @@ jobs:
   jira-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: estherk0/jira-lint@master
+      - uses: jira-tools/action-jira-linter@v1.0.1
         name: jira-lint
         with:
           github-token: ${{ secrets.TOKEN_GA }}
