@@ -13,5 +13,6 @@ jobs:
           github-token: ${{ secrets.TOKEN_GA }}
           jira-token: ${{ secrets.JIRA_TOKEN }}
           jira-base-url: https://kfit-asia.atlassian.net
+          jira-user: syahmi.ahmad@myfave.com
           skip-comments: true
           pr-threshold: 1000
