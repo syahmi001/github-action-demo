@@ -7,10 +7,11 @@ on:
 
 jobs:
   jira-lint:
+    if: ${{ github.ref != 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
       - uses: SuttonJack/jira-lint@v1.3
-        if: ${{ github.ref != 'refs/heads/main' }}
+        # if: ${{ github.ref != 'refs/heads/main' }}
         name: jira-lint
         with:
           github-token: ${{ secrets.TOKEN_GA }}
