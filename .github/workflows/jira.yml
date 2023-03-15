@@ -30,3 +30,4 @@ jobs:
       id: init
       run: |
         echo "Starting CI/CD demo for ${{ github.repository }}"
+        
