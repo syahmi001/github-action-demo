@@ -1,0 +1,29 @@
+name: Deployment Demo
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  jira-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: SuttonJack/jira-lint@v1.3
+        if: ${{ github.ref != 'refs/heads/main' }}
+        name: jira-lint
+        with:
+          github-token: ${{ secrets.TOKEN_GA }}
+          jira-token: ${{ secrets.JIRA_TOKEN }}
+          jira-base-url: https://kfit-asia.atlassian.net
+          jira-user: syahmi.ahmad@myfave.com
+          skip-comments: true
+          pr-threshold: 1000
+  initial-job:
+    name: "Initial job"
+    needs:
+      - jira-lint
+    runs-on: ubuntu-latest
+    steps:
+    - name: First step
+      id: init
+      run: |
+        echo "Starting CI/CD demo for ${{ github.repository }}"
