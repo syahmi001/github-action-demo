@@ -2,7 +2,7 @@
     {
       "id": "1",
       "description": "Fave SEA deployers only",
-      "eligibleActors": ["test"],
+      "eligibleActors": ["syahmi001"],
       "failureMessage": "Only the authorized people from Fave SEA can run this!",
       "failSilently": false
     },
