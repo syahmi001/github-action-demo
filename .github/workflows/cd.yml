@@ -8,6 +8,9 @@ on:
       deploy_target:
         required: true
         type: string
+    secrets:
+      TEST_SECRET:
+        required: true
 
 jobs:
   initial-job:
