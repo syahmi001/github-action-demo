@@ -22,7 +22,6 @@ jobs:
     uses: ./.github/workflows/cd.yml
     with:
       deploy_target: ${{ inputs.deploy_target }}
-    secrets:
-      TEST_SECRET: ${{ secrets.TEST_SECRET }}
+    secrets: inherit
 
     
