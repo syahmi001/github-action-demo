@@ -11,6 +11,8 @@ on:
     secrets:
       TEST_SECRET:
         required: true
+env:
+  TEST_ENV: "Hello world ENV!"
 
 jobs:
   initial-job:
@@ -34,6 +36,10 @@ jobs:
         SECRET: ${{ secrets.TEST_SECRET }} 
       run: |
         echo "$SECRET"
+
+    - name: Echo env
+      run: |
+        echo "$TEST_ENV"
 
     - uses: actions/checkout@v3
       with:
