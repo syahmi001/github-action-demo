@@ -1,5 +1,5 @@
-name: CD-STAGING
-run-name: "Deploying to ${{ inputs.deploy_target }}"
+name: TEST
+run-name: "Just testing"
 on:
   push:
     branches: [ main, test-branch ]
