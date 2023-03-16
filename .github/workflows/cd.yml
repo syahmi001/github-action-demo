@@ -8,9 +8,7 @@ on:
       deploy_target:
         required: true
         type: string
-    secrets:
-      TEST_SECRET:
-        required: true
+
 env:
   TEST_ENV: "Hello world ENV!"
 
