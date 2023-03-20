@@ -2,7 +2,7 @@ name: CD-STAGING
 run-name: "Deploying to ${{ inputs.deploy_target }}"
 
 concurrency:
-  group: ${{ github.head_ref || github.run_id }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 on:
@@ -42,6 +42,12 @@ jobs:
     - name: Echo env
       run: |
         echo "$TEST_ENV"
+    
+    - name: Echo env
+      env:
+        VALUE: ${{ github.workflow }}-${{ github.ref }}
+      run: |
+        echo "$VALUE"
 
     - uses: actions/checkout@v3
       with:
