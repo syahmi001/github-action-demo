@@ -1,4 +1,4 @@
-name: CD-STAGING
+name: CD-PRODUCTION
 run-name: "Deploying to ${{ inputs.deploy_target }}"
   
 on:
