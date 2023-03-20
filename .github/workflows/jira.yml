@@ -1,9 +1,11 @@
-name: Deployment Demo
+name: TEST
+run-name: "Just testing"
 on:
   push:
-    branches: [ main, SRE-429-test-pr-branch ]
+    branches: [ main, test-branch ]
   pull_request:
     branches: [ main ]
+    
   workflow_dispatch:
     inputs:
       deploy_target:
@@ -11,68 +13,15 @@ on:
         required: true
         type: choice
         options:
-          - deployment
+          - development
           - staging
           - production
 
 jobs:
-  setup_test:
-    runs-on: ubuntu-latest
-    steps:
-    - name: setup test
-      run: |
-        echo "Setup test"
+  cd_deploy:
+    uses: ./.github/workflows/cd.yml
+    with:
+      deploy_target: ${{ inputs.deploy_target }}
+    secrets: inherit
 
-  # CI RUN
-  jira-lint:
-    if: ${{ github.ref != 'refs/heads/main' && inputs.deploy_target == null }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: SuttonJack/jira-lint@v1.3
-        # if: ${{ github.ref != 'refs/heads/main' }}
-        name: jira-lint
-        with:
-          github-token: ${{ secrets.TOKEN_GA }}
-          jira-token: ${{ secrets.JIRA_TOKEN }}
-          jira-base-url: https://kfit-asia.atlassian.net
-          jira-user: syahmi.ahmad@myfave.com
-          skip-comments: true
-          pr-threshold: 1000
-
-  # CI RUN
-  ci-job:
-    if: ${{ always() }}
-    needs:
-      - setup_test
-      - jira-lint
-    runs-on: ubuntu-latest
-    steps:
-    - name: First step
-      id: init
-      run: |
-        echo "Starting CI/CD demo for ${{ github.repository }}"
-
-  # CD RUN
-  cd-job-1:
-    if: ${{ inputs.deploy_target }}
-    needs:
-      - setup_test
-    runs-on: ubuntu-latest
-    steps:
-    - name: First step
-      id: init
-      run: |
-        echo "Starting CI/CD demo for ${{ github.repository }}"
-
-  # CD RUN
-  cd-job-2:
-    if: ${{ inputs.deploy_target }}
-    needs:
-      - setup_test
-      - cd-job-1
-    runs-on: ubuntu-latest
-    steps:
-    - name: Second step
-      id: init
-      run: |
-        echo "Starting CI/CD demo for ${{ github.repository }}"
+    

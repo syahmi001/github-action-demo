@@ -1,20 +1,16 @@
-name: Deployment Demo
+name: CD-STAGING
+run-name: "Deploying to ${{ inputs.deploy_target }}"
+
 on:
-  push:
-    branches: [ main, test-branch ]
-  pull_request:
-    branches: [ main ]
-    
-  workflow_dispatch:
+  # List of deploy servers. Production only 
+  workflow_call:
     inputs:
       deploy_target:
-        description: 'Deploy target server'
         required: true
-        type: choice
-        options:
-          - deployment
-          - staging
-          - production
+        type: string
+
+env:
+  TEST_ENV: "Hello world ENV!"
 
 jobs:
   initial-job:
@@ -28,18 +24,20 @@ jobs:
 
   deploy_to_development:
     name: "Development Deployment"
-    if: ${{ github.ref != 'refs/heads/main' }}
+    if: ${{ inputs.deploy_target == 'development'}}
     needs: initial-job
     environment: development
     runs-on: ubuntu-latest
     steps:
-    - name: Which dir
+    - name: Echo secret
+      env:
+        SECRET: ${{ secrets.TEST_SECRET }} 
       run: |
-        ls 
-    
-    - name: Which pwd
+        echo "$SECRET"
+
+    - name: Echo env
       run: |
-        pwd
+        echo "$TEST_ENV"
 
     - uses: actions/checkout@v3
       with:
@@ -53,42 +51,42 @@ jobs:
         ruleId: 1 # required
 
     - name: Deploy to Development
-      if: ${{ github.ref != 'refs/heads/main' }}
+      if: ${{ inputs.deploy_target == 'development'}}
       run: |
         echo "Deploying to Development environment!"
 
   deploy_to_staging:
     name: "Staging Deployment"
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ inputs.deploy_target == 'staging' }}
     needs: initial-job
     environment: staging
     runs-on: ubuntu-latest
     steps:
     - name: Deploy to Staging
-      if: ${{ github.ref == 'refs/heads/main' }}
+      if: ${{ inputs.deploy_target == 'staging' }}
       run: |
         echo "Deploying to Staging environment!"
 
   prod_pre_setup:
     name: "Production setup"
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ inputs.deploy_target == 'production' }}
     needs: initial-job
     runs-on: ubuntu-latest
     steps:
     - name: Pre setup
-      if: ${{ github.ref == 'refs/heads/main' }}
+      if: ${{ inputs.deploy_target == 'production' }}
       run: |
         echo "Pre setup"
 
   deploy_to_production:
     name: "Production Deployment"
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ inputs.deploy_target == 'production' }}
     needs: prod_pre_setup
     environment: production
     runs-on: ubuntu-latest
     steps:
     - name: Deploy to Production
-      if: ${{ github.ref == 'refs/heads/main' }}
+      if: ${{ inputs.deploy_target == 'production' }}
       run: |
         echo "Deploying to Production environment!"
 
