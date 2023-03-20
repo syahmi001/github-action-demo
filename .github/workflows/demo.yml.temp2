@@ -1,0 +1,94 @@
+name: CD-STAGING
+run-name: "Deploying to ${{ inputs.deploy_target }}"
+
+on:
+  # List of deploy servers. Production only 
+  workflow_call:
+    inputs:
+      deploy_target:
+        required: true
+        type: string
+
+env:
+  TEST_ENV: "Hello world ENV!"
+
+jobs:
+  initial-job:
+    name: "Initial job"
+    runs-on: ubuntu-latest
+    steps:
+    - name: First step
+      id: init
+      run: |
+        echo "Starting CI/CD demo for ${{ github.repository }}"
+
+  deploy_to_development:
+    name: "Development Deployment"
+    if: ${{ inputs.deploy_target == 'development'}}
+    needs: initial-job
+    environment: development
+    runs-on: ubuntu-latest
+    steps:
+    - name: Echo secret
+      env:
+        SECRET: ${{ secrets.TEST_SECRET }} 
+      run: |
+        echo "$SECRET"
+
+    - name: Echo env
+      run: |
+        echo "$TEST_ENV"
+
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref || github.ref_name }}
+  
+    # Check for production deployment by authorized user
+    - name: Can actor do production deployment? 
+      uses: natterstefan/action-eligible-actor@v1
+      with:
+        rulesFile: 'eligible-actors-rules.json' # default
+        ruleId: 1 # required
+
+    - name: Deploy to Development
+      if: ${{ inputs.deploy_target == 'development'}}
+      run: |
+        echo "Deploying to Development environment!"
+
+  deploy_to_staging:
+    name: "Staging Deployment"
+    if: ${{ inputs.deploy_target == 'staging' }}
+    needs: initial-job
+    environment: staging
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Staging
+      if: ${{ inputs.deploy_target == 'staging' }}
+      run: |
+        echo "Deploying to Staging environment!"
+
+  prod_pre_setup:
+    name: "Production setup"
+    if: ${{ inputs.deploy_target == 'production' }}
+    needs: initial-job
+    runs-on: ubuntu-latest
+    steps:
+    - name: Pre setup
+      if: ${{ inputs.deploy_target == 'production' }}
+      run: |
+        echo "Pre setup"
+
+  deploy_to_production:
+    name: "Production Deployment"
+    if: ${{ inputs.deploy_target == 'production' }}
+    needs: prod_pre_setup
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Production
+      if: ${{ inputs.deploy_target == 'production' }}
+      run: |
+        echo "Deploying to Production environment!"
+
+
+    
