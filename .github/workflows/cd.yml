@@ -1,6 +1,10 @@
 name: CD-STAGING
 run-name: "Deploying to ${{ inputs.deploy_target }}"
 
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 on:
   # List of deploy servers. Production only 
   workflow_call:
