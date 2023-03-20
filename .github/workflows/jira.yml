@@ -14,27 +14,10 @@ on:
         required: true
         type: choice
         options:
-          - fave/staging/columbus
-          - fave/staging/columbus-2
-          - fave/staging/fnb
-          - fave/staging/hades
-          - fave/staging/ia
-          - fave/staging/kaneru
-          - fave/staging/kaneru-2
-          - fave/staging/latte
-          - fave/staging/main
-          - fave/staging/maple-next
-          - fave/staging/mo
-          - fave/staging/oreo
-          - fave/staging/qa
-          - fave/staging/qa-2
-          - fave/staging/sandbox
-          - fave/staging/web
-          - fave/staging/zai
-          - fave/staging/zen
-          - fave/staging/zeus
-          - fave/uat/maple-next
-          - fave/regression/maple-next
+          - development
+          - staging
+          - production
+
 jobs:
   cd_deploy:
     uses: ./.github/workflows/cd.yml
