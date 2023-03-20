@@ -1,6 +1,3 @@
-name: CD-STAGING
-run-name: "Deploying to ${{ inputs.deploy_target }}"
-
 concurrency:
   group: ${{ github.ref}}
   cancel-in-progress: true
