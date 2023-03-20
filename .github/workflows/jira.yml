@@ -1,9 +1,5 @@
 name: TEST
 run-name: "Just testing"
-
-concurrency:
-  group: ${{ github.ref}}
-  cancel-in-progress: true
   
 on:
   push:
