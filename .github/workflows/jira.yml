@@ -14,9 +14,8 @@ on:
         required: true
         type: choice
         options:
-          - development
-          - staging
-          - production
+          - fave/production/main
+          - fave/production/maple-next
 
 jobs:
   cd_deploy:
