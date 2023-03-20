@@ -2,7 +2,7 @@ name: TEST
 run-name: "Just testing"
 
 concurrency:
-  group: ${{ inputs.deploy_target }}
+  group: ${{ github.ref}}
   cancel-in-progress: true
   
 on:
