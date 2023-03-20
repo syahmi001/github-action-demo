@@ -4,7 +4,7 @@ run-name: "Just testing"
 concurrency:
   group: ${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
-
+  
 on:
   push:
     branches: [ main, test-branch ]
@@ -18,8 +18,9 @@ on:
         required: true
         type: choice
         options:
-          - fave/production/main
-          - fave/production/maple-next
+          - development
+          - staging
+          - production
 
 jobs:
   cd_deploy:
